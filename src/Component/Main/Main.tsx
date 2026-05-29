@@ -1,10 +1,14 @@
-import React from "react";
-import DemoOfUseCounter from "../DemoOfUseCounter";
+import "./main.style.css";
+
+import { Outlet } from "react-router-dom";
 
 export default function Main() {
   return (
-    <div>
-      <DemoOfUseCounter />
+    <div className="main-container">
+      {/* <UseCounterPage />
+      <UseClipboardPage /> */}
+      <Outlet />
+      {/* <Input type="text" name="Demo" /> */}
     </div>
   );
 }

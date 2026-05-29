@@ -1,6 +1,27 @@
 @import "tailwindcss";
 
 :root {
+
+    /*color */
+    --primary-color:#4B4AF0;
+    --secondary-color:#F7F8F9;
+    --navlink-secondary-bg-color:#1D2A41;
   
+    /* Background -color */
+    --navbar-bg-color : #0C172C;
+    --main-bg-color:#f3f3f8;
+
+
+    /*  */
 }
 
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#root{
+    height: 100vh;
+    width: 100vw;
+}

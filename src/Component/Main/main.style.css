@@ -1,0 +1,5 @@
+@reference 'tailwindcss';
+
+.main-container{
+    @apply bg-[var(--main-bg-color)] h-full
+}

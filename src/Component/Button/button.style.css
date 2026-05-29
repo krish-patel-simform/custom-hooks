@@ -1,0 +1,14 @@
+@reference 'tailwindcss';
+
+.btn
+{
+    @apply cursor-pointer rounded-[5px] p-[0.5rem];
+}
+
+.btn-primary{
+    @apply bg-[var(--primary-color)] text-white
+}
+
+.btn-secondary{
+    @apply bg-[var(--secondary-color)]
+}

@@ -1,0 +1,13 @@
+@reference "tailwindcss";
+
+.navlinks{
+    @apply flex flex-col gap-2 px-4
+}
+
+.navlink{
+    @apply flex items-center gap-2 px-4 py-2 rounded-lg transition bg-[var(--navlink-secondary-bg-color)];
+}
+
+.navlink-active{
+    @apply bg-[var(--primary-color)]
+}
