@@ -8,6 +8,8 @@ const navlinks = [
   "useFetch",
   "useDebounce",
   "useThrottle",
+  "usePrevious",
+  "usePagination",
 ];
 
 export default function Navbar() {
