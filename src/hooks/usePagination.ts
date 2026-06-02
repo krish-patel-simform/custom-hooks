@@ -7,32 +7,34 @@ function usePagination<P>(data: P[], itemPerPage: number) {
   const [canNext, setCanNext] = useState(data.length > itemPerPage);
 
   function getCurrentItem(index: number) {
+    console.log(index);
+    // handle canPrevious
+    if (index + itemPerPage - 1 >= data.length) {
+      setCanNext(false);
+      // return;
+    } else {
+      setCanNext(true);
+    }
+
+    if (index <= 0) {
+      setCanPrev(false);
+    } else if (!canPrev) {
+      setCanPrev(true);
+    }
+
     const currentData = data.slice(index, index + itemPerPage);
     setCurrentItem(currentData);
+    setCurrentIndex(index);
   }
 
   function nextPage() {
     const newIndex = currentIndex + itemPerPage;
-    if (newIndex >= data.length) {
-      setCanNext(false);
-      return;
-    } else {
-      setCanNext(true);
-      getCurrentItem(newIndex);
-      setCurrentIndex(newIndex);
-    }
+    getCurrentItem(newIndex);
   }
 
   function prevPage() {
     const newIndex = currentIndex - itemPerPage;
-    if (newIndex < 0) {
-      setCanPrev(false);
-      return;
-    } else {
-      setCanPrev(true);
-      getCurrentItem(newIndex);
-      setCurrentIndex(newIndex);
-    }
+    getCurrentItem(newIndex);
   }
 
   return { currentItem, prevPage, nextPage, canPrev, canNext };

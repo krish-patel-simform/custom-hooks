@@ -1,4 +1,4 @@
-import { useDarkMode } from "../hooks/useDarkMode.tsx";
+import { useDarkMode } from "../hooks/useDarkMode.ts";
 import { withDemo } from "../HOC/withDemo.tsx";
 import Button from "../Component/Button/Button.tsx";
 

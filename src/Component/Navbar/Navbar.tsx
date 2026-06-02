@@ -10,6 +10,7 @@ const navlinks = [
   "useThrottle",
   "usePrevious",
   "usePagination",
+  "useForm",
 ];
 
 export default function Navbar() {

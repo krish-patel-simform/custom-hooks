@@ -8,6 +8,7 @@ import UseOnlineStatusPage from "./Pages/UseOnlineStatusPage";
 import UseFetchPage from "./Pages/UseFetchPage";
 import UsePreviousPage from "./Pages/UsePreviousPage";
 import UsePaginationPage from "./Pages/UsePaginationPage";
+import UseFormPage from "./Pages/UseFormPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="useFetch" element={<UseFetchPage />} />
         <Route path="usePrevious" element={<UsePreviousPage />} />
         <Route path="usePagination" element={<UsePaginationPage />} />
+        <Route path="useForm" element={<UseFormPage />} />
         <Route path="*" Component={() => <h1>Page not found</h1>} />
       </Route>
     </Routes>
