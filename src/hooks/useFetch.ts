@@ -1,51 +1,87 @@
-import { useEffect, useState } from "react";
+import { useReducer, useRef } from "react";
 
-type ResponseData = {
-  isSuccess: boolean;
-  data: null | object;
-  error: null | string;
+type State<T> = {
+  data: T | null;
+  error: string | undefined;
+  loading: boolean;
 };
 
-function useFetch(
-  url: RequestInfo | URL,
-  options?: RequestInit,
-): [boolean, ResponseData] {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<ResponseData>({
-    data: null,
-    error: null,
-    isSuccess: false,
-  });
+const initState = {
+  data: null,
+  error: undefined,
+  loading: false,
+};
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        const response = await fetch(url, options);
+type Actions<T> =
+  | { type: "SUCCESS"; payload: { data: T } }
+  | { type: "FAIL"; payload: { error: string } }
+  | { type: "PENGING"; payload: { loading: boolean } };
 
-        if (!response.ok) {
-          throw new Error("Can not fetch the data");
-        }
-        const jsonData = await response.json();
-        setData({
-          data: jsonData,
-          isSuccess: true,
-          error: null,
-        });
-      } catch (error: unknown) {
-        setData({
-          isSuccess: false,
-          data: null,
-          error: error instanceof Error ? error.message : String(error),
-        });
-      } finally {
-        setLoading(false);
-      }
+function fetchReducer<T>(state: State<T>, action: Actions<T>): State<T> {
+  switch (action.type) {
+    case "FAIL": {
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
     }
-    fetchData();
-  }, [url, options]);
-
-  return [loading, data];
+    case "PENGING": {
+      return {
+        ...state,
+        loading: action.payload.loading,
+      };
+    }
+    case "SUCCESS": {
+      return {
+        data: action.payload.data,
+        error: undefined,
+        loading: false,
+      };
+    }
+    default:
+      return state;
+  }
 }
 
-export { useFetch };
+export function useFetch<T>(url: RequestInfo, options?: RequestInit) {
+  const [fetchState, dispatchFetchState] = useReducer(
+    fetchReducer<T>,
+    initState,
+  );
+
+  const controllerRef = useRef<null | AbortController>(null);
+
+  async function execute() {
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+    }
+
+    controllerRef.current = new AbortController();
+    console.log("new Request is sent");
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controllerRef.current?.signal,
+      });
+
+      if (!response.ok)
+        throw new Error("Fail to fatch response is not success");
+
+      const jsonRes = (await response.json()) as T;
+
+      dispatchFetchState({ type: "SUCCESS", payload: { data: jsonRes } });
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        console.log("Request Aborted");
+        return;
+      }
+
+      if (error instanceof Error) {
+        dispatchFetchState({ type: "FAIL", payload: { error: error.message } });
+      }
+    }
+  }
+
+  return { ...fetchState, execute };
+}

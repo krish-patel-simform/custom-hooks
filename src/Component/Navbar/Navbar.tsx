@@ -11,6 +11,10 @@ const navlinks = [
   "usePrevious",
   "usePagination",
   "useForm",
+  "useWindowSize",
+  "useIdel",
+  "useKeyPressed",
+  "useOnClickOutside",
 ];
 
 export default function Navbar() {

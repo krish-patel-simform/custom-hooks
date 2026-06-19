@@ -1,7 +1,13 @@
+import { useEffect } from "react";
 import { withDemo } from "../HOC/withDemo";
 import { useFetch } from "../hooks/useFetch";
 
 const URL = "https://jsonplaceholder.typicode.com/posts?_limit=3";
+
+type Post = {
+  title: string;
+  body: string;
+};
 
 const PostContainerStyle = {
   display: "flex",
@@ -14,19 +20,29 @@ const PostStyle = {
 };
 
 function DemoOfUseFetch() {
-  const [loding, data] = useFetch(URL);
+  const { data, error, loading, execute } = useFetch<Post[]>(URL);
 
-  if (loding) return <h6>Loading....</h6>;
+  useEffect(() => {
+    execute();
+  }, []);
 
-  if (data.error) return <h6>{data.error}</h6>;
+  if (loading) return <h6>Loading....</h6>;
 
-  console.log(data.data);
+  if (error) return <h6>{error}</h6>;
 
-  if (data.data instanceof Array) {
+  console.log(data);
+
+  if (data instanceof Array) {
     return (
       <>
         <div style={PostContainerStyle}>
-          {data.data.map((post) => {
+          <input
+            style={{ border: "1px solid black" }}
+            type="text"
+            onChange={execute}
+            placeholder="Search here"
+          />
+          {data.map((post) => {
             return (
               <div key={post.id} style={PostStyle}>
                 <p>Title : {post.title}</p>
