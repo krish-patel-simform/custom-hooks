@@ -9,12 +9,6 @@ type Post = {
   body: string;
 };
 
-const PostContainerStyle = {
-  display: "flex",
-  flexDirection: "column",
-  gap: "1rem",
-};
-
 const PostStyle = {
   border: "1px solid gray",
 };
@@ -35,7 +29,13 @@ function DemoOfUseFetch() {
   if (data instanceof Array) {
     return (
       <>
-        <div style={PostContainerStyle}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+        >
           <input
             style={{ border: "1px solid black" }}
             type="text"
@@ -44,7 +44,7 @@ function DemoOfUseFetch() {
           />
           {data.map((post) => {
             return (
-              <div key={post.id} style={PostStyle}>
+              <div key={post.title} style={PostStyle}>
                 <p>Title : {post.title}</p>
                 <pre>Body : {post.body}</pre>
               </div>
