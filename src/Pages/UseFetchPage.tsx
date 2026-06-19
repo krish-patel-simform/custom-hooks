@@ -14,13 +14,11 @@ const PostStyle = {
 };
 
 function DemoOfUseFetch() {
-  const { data, error, loading, execute } = useFetch<Post[]>(URL);
+  const { data, error, execute } = useFetch<Post[]>(URL);
 
   useEffect(() => {
     execute();
   }, []);
-
-  if (loading) return <h6>Loading....</h6>;
 
   if (error) return <h6>{error}</h6>;
 

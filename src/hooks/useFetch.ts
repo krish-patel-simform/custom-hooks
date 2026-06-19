@@ -56,7 +56,7 @@ export function useFetch<T>(url: RequestInfo, options?: RequestInit) {
     if (controllerRef.current) {
       controllerRef.current.abort();
     }
-
+    dispatchFetchState({ type: "PENGING", payload: { loading: true } });
     controllerRef.current = new AbortController();
     console.log("new Request is sent");
     try {
